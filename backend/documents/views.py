@@ -182,7 +182,7 @@ class SummaryView(APIView):
         summary = generate_summary(
             context
         )
-        print(context)
+        
 
         return Response({
             "summary": summary

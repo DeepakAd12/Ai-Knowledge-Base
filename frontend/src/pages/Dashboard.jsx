@@ -153,13 +153,13 @@ const generateSummary =
 };
   const handleSend = async (question) => {
 
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "user",
-        content: question,
-      },
-    ]);
+   setMessages((prev) => [
+  ...prev,
+  {
+    role: "user",
+    content: question,
+  },
+]);
 
     setLoading(true);
 
@@ -172,15 +172,14 @@ const generateSummary =
         }
       );
 
-      setMessages((prev) => [
-        ...prev,
+     setMessages((prev) => [
+  ...prev,
         {
           role: "assistant",
           content: response.data.answer,
           sources: response.data.sources || [],
         },
       ]);
-
     } catch (error) {
 
       console.error(error);
@@ -263,12 +262,65 @@ const generateSummary =
 
       <div className="flex flex-1 flex-col">
 
-        <ChatWindow
-          messages={messages}
-          loading={loading}
-        />
-    
-      {featureLoading && (
+        {(flashcards || summary) ? (
+
+  <div className="flex-1 overflow-y-auto p-6">
+
+
+<button
+  onClick={() => {
+    setSummary("");
+    setFlashcards("");
+  }}
+  className="
+  mb-4
+  rounded-lg
+  bg-slate-700
+  px-4
+  py-2
+  hover:bg-slate-600
+  "
+>
+  ← Back
+</button>
+
+{summary && (
+  <>
+    <h2 className="mb-4 text-2xl font-bold">
+      📝 Document Summary
+    </h2>
+
+    <div className="whitespace-pre-wrap text-slate-300">
+      {summary}
+    </div>
+  </>
+)}
+
+{flashcards && (
+  <>
+    <h2 className="mb-4 text-2xl font-bold">
+      📚 Flashcards
+    </h2>
+
+    <div className="whitespace-pre-wrap text-slate-300">
+      {flashcards}
+    </div>
+  </>
+)}
+
+
+  </div>
+
+) : (
+
+<>
+
+<ChatWindow
+  messages={messages}
+  loading={loading}
+/>
+
+{featureLoading && (
 
   <div className="mx-6 mb-4 rounded-xl bg-blue-600/20 p-4 text-center">
 
@@ -278,68 +330,13 @@ const generateSummary =
 
 )}
 
-      {(flashcards || summary) && (
+<ChatInput
+  onSend={handleSend}
+/>
 
-  <div className="mx-6 mb-4 rounded-2xl border border-slate-800 bg-slate-900 p-5">
-   
-    <button
-      onClick={() => {
-
-        setSummary("");
-        setFlashcards("");
-
-      }}
-      className="
-      mb-4
-      rounded-lg
-      bg-slate-700
-      px-4
-      py-2
-      hover:bg-slate-600
-      "
-    >
-      ← Back
-    </button>
-
-    {summary && (
-
-      <>
-        <h2 className="mb-4 text-xl font-bold">
-          📝 Document Summary
-        </h2>
-
-        <div className="mb-6 whitespace-pre-wrap text-slate-300">
-          {summary}
-
-       
-        </div>
-
-      </>
-
-    )}
-
-    {flashcards && (
-
-      <>
-        <h2 className="mb-4 text-xl font-bold">
-          📚 Flashcards
-        </h2>
-
-        <div className="whitespace-pre-wrap text-slate-300">
-          {flashcards}
-        </div>
-
-      </>
-
-    )}
-
-  </div>
+</>
 
 )}
-
-        <ChatInput
-          onSend={handleSend}
-        />
 
       </div>
             <UploadModal
