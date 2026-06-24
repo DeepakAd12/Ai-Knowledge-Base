@@ -15,6 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import dj_database_url
+import os
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-2sootky#y4%s67uu_&lfy)r#3qi3)*2#r_3$2pt0nr39l^b=jb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application de
@@ -79,14 +81,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "knowledgebase",
-        "USER": "postgres",
-        "PASSWORD": "adhikariji12",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+"default": dj_database_url.config(
+default="postgresql://postgres:adhikariji12@localhost:5432/knowledgebase"
+)
 }
 
 
