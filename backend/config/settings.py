@@ -21,11 +21,10 @@ import os
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2sootky#y4%s67uu_&lfy)r#3qi3)*2#r_3$2pt0nr39l^b=jb'
-
+# SECURITY WARNING: keep 'the secret key used in production secret!
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -82,7 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
 "default": dj_database_url.config(
-default="postgresql://postgres:adhikariji12@localhost:5432/knowledgebase"
+default=os.getenv("DATABASE_URL")
 )
 }
 
@@ -122,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 CORS_ALLOW_ALL_ORIGINS = True
 
 MEDIA_URL = "/media/"
