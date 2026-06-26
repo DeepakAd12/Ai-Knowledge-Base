@@ -1,10 +1,6 @@
 import axios from "axios";
-
 const api = axios.create({
-
-  baseURL:
-    "https://ai-knowledge-base-production-4a6f.up.railway.app/api/",
-
+  baseURL: "https://ai-knowledge-base-production-4a6f.up.railway.app/api/",
 });
 
 api.interceptors.request.use(
