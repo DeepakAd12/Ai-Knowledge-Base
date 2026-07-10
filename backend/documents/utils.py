@@ -12,6 +12,8 @@ genai.configure(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
+def create_embeddings(texts):
+    return model.encode(texts).tolist()
 
 def extract_pdf_text(pdf_path):
 

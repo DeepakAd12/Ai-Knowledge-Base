@@ -4,7 +4,6 @@ from httpx import request
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from torch import embedding
 from .serializers import DocumentSerializer
 from .models import Document, Chunk
 from .utils import create_embedding, extract_pdf_text,split_text
@@ -16,8 +15,12 @@ from rest_framework.response import Response
 from .utils import generate_flashcards,generate_summary
 from rest_framework.permissions import IsAuthenticated
 from .utils import (
+    create_embedding,
+    create_embeddings,
+    extract_pdf_text,
+    split_text,
     search_chunks,
-    ask_gemini
+    ask_gemini,
 )
 
 class HealthCheck(APIView):
@@ -51,27 +54,22 @@ class UploadDocument(APIView):
 
             chunks = split_text(text)
 
-            # print("Chunks:", len(chunks))
-            chunks = split_text(text)
-
             if not chunks:
 
                 return Response(
                     {"error": "No text could be extracted from PDF"},
                     status=400
                 )
-            for index, chunk_text in enumerate(chunks):
+            embeddings = create_embeddings(chunks)
 
-                    embedding = create_embedding(
-                        chunk_text
-                    )
+            for index, (chunk_text, embedding) in enumerate(zip(chunks, embeddings)):
 
-                    Chunk.objects.create(
-                        document=document,
-                        content=chunk_text,
-                        chunk_index=index,
-                        embedding=embedding
-                    )
+                Chunk.objects.create(
+                    document=document,
+                    content=chunk_text,
+                    chunk_index=index,
+                    embedding=embedding
+                )
 
             return Response(
                 serializer.data,
