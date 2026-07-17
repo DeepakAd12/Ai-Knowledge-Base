@@ -1,4 +1,7 @@
+import {  X } from "lucide-react";
 export default function Sidebar({
+  isOpen,
+  setIsOpen,
   documents,
   stats,
   searchTerm,
@@ -16,40 +19,88 @@ export default function Sidebar({
   );
 
   return (
-    <div className="w-full md:w-72 border-r border-slate-800 bg-slate-950">
+    <>
 
+   <div
+  className={`
+  fixed inset-y-0 left-0 z-50
+  w-80
+  bg-slate-950
+  border-r border-slate-800
+  flex flex-col
+  transform transition-transform duration-300
+  ${isOpen ? "translate-x-0" : "-translate-x-full"}
+
+  md:relative
+  md:translate-x-0
+  md:flex
+  md:shrink-0
+`}
+>
+  {/* Mobile Close Button */}
+<div className="flex justify-end p-4 md:hidden">
+  <button
+    onClick={() => setIsOpen(false)}
+    className="rounded-lg bg-slate-900 p-2 hover:bg-slate-800"
+  >
+    <X size={22} />
+  </button>
+</div>
       {/* Header */}
-      <div className="p-5">
 
-        <h1 className="text-xl font-bold">
-          🤖 AI Knowledge Base
-        </h1>
+        <div className="border-b border-slate-800 p-6">
 
-        <p className="mt-1 text-sm text-slate-400">
-          Welcome,{" "}
-          {localStorage.getItem("username") || "User"}
-        </p>
+          <h1 className="text-2xl font-bold">
+            🤖 AI Knowledge Base
+          </h1>
 
-      </div>
+          <p className="mt-1 text-sm text-slate-400">
+            Your AI Study Assistant
+          </p>
 
-      {/* Stats */}
-      <div className="px-5 pb-3">
+          <div className="mt-5">
 
-        <div className="rounded-xl bg-slate-900 p-3 text-sm">
+            <p className="text-xs text-slate-500">
+              Signed in as
+            </p>
 
-          <div>
-            📄 Documents:{" "}
-            {stats?.documents || 0}
-          </div>
+            <p className="font-semibold">
+              {localStorage.getItem("username") || "User"}
+            </p>
 
-          <div className="mt-2">
-            🧩 Chunks:{" "}
-            {stats?.chunks || 0}
           </div>
 
         </div>
 
-      </div>
+      {/* Stats */}
+     {/* Stats */}
+<div className="grid grid-cols-2 gap-3 p-4">
+
+  <div className="rounded-xl bg-slate-900 p-4 text-center">
+
+    <p className="text-sm text-slate-400">
+      Documents
+    </p>
+
+    <p className="mt-2 text-2xl font-bold">
+      {stats?.documents || 0}
+    </p>
+
+  </div>
+
+  <div className="rounded-xl bg-slate-900 p-4 text-center">
+
+    <p className="text-sm text-slate-400">
+      Chunks
+    </p>
+
+    <p className="mt-2 text-2xl font-bold">
+      {stats?.chunks || 0}
+    </p>
+
+  </div>
+
+</div>
 
       {/* Actions */}
       <div className="p-4">
@@ -86,7 +137,7 @@ export default function Sidebar({
           "
         >
         
-       🚪 Logout
+       🚪 Sign Out
         </button>
 
       </div>
@@ -96,7 +147,7 @@ export default function Sidebar({
 
         <input
           type="text"
-          placeholder="🔍 Search documents..."
+          placeholder="🔍 Search your documents..."
           value={searchTerm}
           onChange={(e) =>
             setSearchTerm(
@@ -119,7 +170,13 @@ export default function Sidebar({
       </div>
 
       {/* Documents */}
-      <div className="p-3 overflow-y-auto">
+      <div
+        className="
+        flex-1
+        overflow-y-auto
+        p-3
+        "
+        >
 
         {filteredDocuments.length === 0 ? (
 
@@ -163,7 +220,9 @@ export default function Sidebar({
               bg-slate-900
               p-3
               hover:border-slate-700
-              transition
+                hover:scale-[1.02]
+                transition-all
+                duration-200
               "
             >
 
@@ -180,9 +239,10 @@ export default function Sidebar({
                 </span>
 
                 <button
-                  onClick={() =>
-                    onDelete(doc.id)
-                  }
+                  onClick={() => {
+                    onDelete(doc.id);
+                    setIsOpen(false);
+                  }}
                   className="
                   text-red-400
                   hover:text-red-300
@@ -197,11 +257,10 @@ export default function Sidebar({
 
                 <button
                   disabled={featureLoading}
-                  onClick={() =>
-                    generateFlashcards(
-                      doc.id
-                    )
-                  }
+                  onClick={() => {
+                    generateFlashcards(doc.id);
+                    setIsOpen(false);
+                  }}
                   className="
                   flex-1
                   rounded-lg
@@ -219,11 +278,10 @@ export default function Sidebar({
 
                 <button
                   disabled={featureLoading}
-                  onClick={() =>
-                    generateSummary(
-                      doc.id
-                    )
-                  }
+                  onClick={() => {
+                    generateSummary(doc.id);
+                    setIsOpen(false);
+                  }}
                   className="
                   flex-1
                   rounded-lg
@@ -249,6 +307,7 @@ export default function Sidebar({
 
       </div>
 
-    </div>
-  );
+   </div>
+</>
+);
 }

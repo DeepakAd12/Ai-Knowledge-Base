@@ -17,9 +17,9 @@ export default function ChatInput({
   };
 
   return (
-    <div className="border-t border-slate-800 p-4">
+    <div className="border-t border-slate-800 bg-slate-950 p-4">
 
-      <div className="flex gap-3">
+      <div className="mx-auto flex max-w-4xl gap-3">
 
         <input
         value={question}
@@ -32,12 +32,12 @@ export default function ChatInput({
           }
         }}
         placeholder="Ask anything..."
-        className="flex-1 rounded-xl bg-slate-900 p-3"
+        className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 outline-none focus:border-blue-500"
       />
 
         <button
           onClick={submit}
-          className="rounded-xl bg-blue-600 px-6"
+          className="rounded-xl bg-blue-600 px-6 py-3 font-medium hover:bg-blue-700"
         >
           Send
         </button>

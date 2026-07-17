@@ -12,7 +12,7 @@ const isUser = role === "user";
 if (content === "Thinking...") {
   return (
     <div className="mb-4">
-      <div className="bg-slate-800 rounded-2xl p-4 inline-block animate-pulse">
+      <div className="bg-slate-800 rounded-2xl p-4 md:p-5 inline-block animate-pulse">
         Thinking...
       </div>
     </div>
@@ -27,7 +27,7 @@ if (content === "Thinking...") {
     }`}
   >
 
-    <div className="max-w-3xl">
+    <div className="w-full max-w-full md:max-w-3xl">
 
       <div
         className={`mb-1 text-xs ${
@@ -38,14 +38,14 @@ if (content === "Thinking...") {
       >
         {isUser
           ? "You"
-          : "🤖 Assistant"}
+          : "🤖 AI Assistant"}
       </div>
 
       <div
-        className={`rounded-2xl p-4 shadow-lg ${
+        className={`rounded-2xl p-4 md:p-5 shadow-lg ${
           isUser
-            ? "bg-blue-600 text-white"
-            : "border border-slate-700 bg-slate-800"
+            ? "bg-blue-600 text-white rounded-br-md"
+            : "border border-slate-700 bg-slate-800 rounded-bl-md"
         }`}
       >
 
@@ -73,7 +73,10 @@ if (content === "Thinking...") {
                   px-3
                   py-2
                   text-xs
-                  text-blue-400
+                  text-blue-300
+                  hover:bg-slate-800
+                  transition
+                  cursor-pointer
                   "
                 >
                   📄 {source.document}

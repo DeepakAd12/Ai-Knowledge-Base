@@ -17,17 +17,21 @@ export default function ChatWindow({
   }, [messages, loading]);
 if (messages.length === 0) {
   return (
-     <div className="flex flex-col items-center justify-center h-full text-center">
+     <div className="flex h-full flex-col items-center justify-center text-center">
 
-    <h1 className="text-4xl font-bold mb-4">
+    <h1 className="text-3xl md:text-5xl font-bold mb-4">
       🤖 AI Knowledge Base
+     
+      <h2 className="text-xl md:text-2xl font-normal text-slate-400">
+        
+      </h2>
     </h1>
 
     <p className="text-slate-400 mb-8">
       Upload PDFs and chat with your documents
     </p>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
 
   <div
     className="
@@ -37,7 +41,8 @@ if (messages.length === 0) {
     bg-slate-900
     p-5
     transition
-    hover:scale-105
+    hover:scale-[1.03]
+    hover:shadow-xl
     hover:border-blue-500
     cursor-pointer
     "
@@ -139,7 +144,7 @@ if (messages.length === 0) {
   );
 }
   return (
-    <div className="flex-1 overflow-y-auto p-6">
+    <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
 
       {messages.map((msg, index) => (
 
@@ -162,7 +167,7 @@ if (messages.length === 0) {
           className="
           h-4
           w-4
-          animate-spin
+          animate-pulse
           rounded-full
           border-2
           border-white
@@ -171,7 +176,7 @@ if (messages.length === 0) {
         />
 
         <span>
-          Thinking...
+          Generating answer...
         </span>
 
       </div>

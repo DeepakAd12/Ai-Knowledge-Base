@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 import toast from "react-hot-toast";
-
+import { Menu } from "lucide-react";
 import api from "../services/api";
 import UploadModal from "../components/UploadModal";
 
@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [featureLoading, setFeatureLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [stats, setStats] = useState({documents: 0,chunks: 0, });
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
  const fetchStats = async () => {
 
   try {
@@ -203,7 +203,7 @@ const generateSummary =
 
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
 
-    <div className="bg-slate-900 p-6 rounded-xl w-96">
+    <div className="bg-slate-900 p-6 rounded-xl w-full max-w-md mx-4">
 
       <h2 className="text-xl mb-4">
         Delete Document?
@@ -219,7 +219,7 @@ const generateSummary =
           onClick={() =>
             setDeleteId(null)
           }
-          className="bg-slate-700 px-4 py-2 rounded"
+          className="bg-slate-700 px-5 py-3 text-sm md:text-base rounded"
         >
           Cancel
         </button>
@@ -234,7 +234,7 @@ const generateSummary =
             setDeleteId(null);
 
           }}
-          className="bg-red-600 px-4 py-2 rounded"
+          className="bg-red-600 px-5 py-3 text-sm md:text-base rounded"
         >
           Delete
         </button>
@@ -247,24 +247,47 @@ const generateSummary =
 
 )}
   return (
-    <div className="flex h-screen flex-col md:flex-row bg-slate-950">
+    
+    <div className="min-h-screen bg-slate-950 md:flex">
+      <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 p-4 md:hidden">
+          <h1 className="text-lg font-bold">🤖 AI Knowledge Base</h1>
+
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="rounded-lg bg-slate-900 p-2"
+          >
+            <Menu size={22} />
+          </button>
+        </div>
         <Sidebar
-        documents={documents}
-        stats={stats}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        featureLoading={featureLoading}
-        onUploadClick={() =>  setIsUploadOpen(true) }
-        onDelete={handleDelete}
-        generateFlashcards={generateFlashcards}
-        generateSummary={generateSummary}
+          isOpen={isSidebarOpen}
+          setIsOpen={setIsSidebarOpen}
+          documents={documents}
+          stats={stats}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          featureLoading={featureLoading}
+          onUploadClick={() => {
+                setIsUploadOpen(true);
+                setIsSidebarOpen(false);
+              }}
+          onDelete={handleDelete}
+          generateFlashcards={generateFlashcards}
+          generateSummary={generateSummary}
         />
 
-      <div className="flex flex-1 flex-col">
+      <div className=" flex flex-1  flex-col  overflow-hidden">
 
         {(flashcards || summary) ? (
 
-  <div className="flex-1 overflow-y-auto p-6">
+  <div
+      className="
+      flex-1
+      overflow-y-auto
+      p-4
+      md:p-8
+      "
+      >
 
 
 <button
@@ -276,8 +299,10 @@ const generateSummary =
   mb-4
   rounded-lg
   bg-slate-700
-  px-4
-  py-2
+  px-5
+  py-3
+  text-sm
+  md:text-base
   hover:bg-slate-600
   "
 >
@@ -286,7 +311,7 @@ const generateSummary =
 
 {summary && (
   <>
-    <h2 className="mb-4 text-2xl font-bold">
+    <h2 className="mb-4 text-xl md:text-2xl font-bold">
       📝 Document Summary
     </h2>
 
@@ -298,7 +323,7 @@ const generateSummary =
 
 {flashcards && (
   <>
-    <h2 className="mb-4 text-2xl font-bold">
+    <h2 className="mb-4 text-xl md:text-2xl font-bold">
       📚 Flashcards
     </h2>
 
@@ -322,7 +347,7 @@ const generateSummary =
 
 {featureLoading && (
 
-  <div className="mx-6 mb-4 rounded-xl bg-blue-600/20 p-4 text-center">
+  <div className="mx-4 md:mx-8 mb-4 rounded-xl bg-blue-600/20 p-4 text-center">
 
     ⏳ Generating content...
 
